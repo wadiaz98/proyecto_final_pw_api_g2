@@ -60,6 +60,13 @@ public class ClienteServiceImpl implements IClienteService {
 		this.clienteRepo.eliminar(cedula);
 	}
 	
+	@Override
+	public List<ClienteDTO> obtenerTodos() {
+		// TODO Auto-generated method stub
+		return this.clienteRepo.buscarTodos();
+	}	
+	
+	// FUNCIONES 
 	private Cliente convertToClient(ClienteTo clienteTo){
 		Cliente cliente = new Cliente();
 		cliente.setApellido(clienteTo.getApellido());

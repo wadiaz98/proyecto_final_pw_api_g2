@@ -52,6 +52,19 @@ public class VehiculoServiceImpl implements IVehiculoService {
 		this.iVehiculoRepo.actualizar(convertToVehiculo(vehiculo));
 	}
 	
+	@Override
+	public List<String> buscarMarcasVehiculos() {
+		// TODO Auto-generated method stub
+		return this.iVehiculoRepo.buscarMarcasVehiculos();
+	}
+
+	@Override
+	public List<VehiculoDTO> obtenerTodos() {
+		// TODO Auto-generated method stub
+		return this.iVehiculoRepo.buscarTodos();
+	}
+	
+	// FUNCIONES SERVICE
 	private Vehiculo convertToVehiculo(VehiculoTO vehiculoTO) {
 		Vehiculo vehiculo = new Vehiculo();
 		vehiculo.setAnio(vehiculoTO.getAnio());
@@ -78,12 +91,6 @@ public class VehiculoServiceImpl implements IVehiculoService {
 		vehiculoTO.setPlaca(vehiculo.getPlaca());
 		vehiculoTO.setValorDia(vehiculo.getValorDia());
 		return vehiculoTO;
-	}
-
-	@Override
-	public List<String> buscarMarcasVehiculos() {
-		// TODO Auto-generated method stub
-		return this.iVehiculoRepo.buscarMarcasVehiculos();
 	}
 
 }

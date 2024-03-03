@@ -72,4 +72,13 @@ public class VehiculoRepoImpl implements IVehiculoRepo {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<VehiculoDTO> buscarTodos() {
+		// TODO Auto-generated method stub
+		TypedQuery<VehiculoDTO> query = this.entityManager.createQuery(
+				"SELECT new com.example.demo.service.dto.VehiculoDTO(e.placa, e.modelo, e.marca, e.anio, e.valorDia, e.estado) FROM Vehiculo e",
+				VehiculoDTO.class);
+		return query.getResultList();
+	}
+
 }
