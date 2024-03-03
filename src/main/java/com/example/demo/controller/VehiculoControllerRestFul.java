@@ -58,7 +58,12 @@ public class VehiculoControllerRestFul {
 		List<VehiculoDTO> vehiculos = this.iVehiculoService.buscarPorMarca(marca);		
 		return ResponseEntity.status(HttpStatus.OK).body(vehiculos);
 	}
-	
+	//buscar por placa
+	@GetMapping(path = "/placa/{placa}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<VehiculoTO> buscarPlaca(@PathVariable String placa) {
+		VehiculoTO vehiculo = this.iVehiculoService.buscar(placa);		
+		return ResponseEntity.status(HttpStatus.OK).body(vehiculo);
+	}
 	//actualizar
 	@PutMapping(path = "/{placa}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> actualizar(@RequestBody VehiculoTO vehiculo, @PathVariable String placa) {
