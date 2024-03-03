@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.example.demo.repository.IVehiculoRepo;
 import com.example.demo.repository.model.Cliente;
 import com.example.demo.repository.model.Reserva;
 import com.example.demo.repository.model.Vehiculo;
+import com.example.demo.service.to.ReservaTO;
 
 @Service
 public class ReservaServiceImpl implements IReservaService {
@@ -98,9 +100,27 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	@Override
-	public List<Reserva> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+	public List<ReservaTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
 		// TODO Auto-generated method stub
-		return this.iReservaRepo.buscarReporte(fechaInicio, fechaFin);
+		List<Reserva> listado = this.iReservaRepo.buscarReporte(fechaInicio, fechaFin);
+		List<ReservaTO> nuevo = new ArrayList();
+		for(Reserva res : listado) {
+			nuevo.add(this.convertirTO(res));
+		}
+		return nuevo;
+	}
+	
+	private ReservaTO convertirTO(Reserva reserva) {
+		ReservaTO tmp = new ReservaTO();
+		tmp.setNumero(reserva.getNumero());
+		tmp.setSubtotal(reserva.getValorSubtotal());
+		tmp.setIva(reserva.getIva());
+		tmp.setTotal(reserva.getValorTotal());
+		tmp.setFechaInicio(reserva.getFechaInicio());
+		tmp.setFechaFin(reserva.getFechaFin());
+		tmp.setCliente(reserva.getCliente());
+		tmp.setVehiculo(reserva.getVehiculo());
+		return tmp;
 	}
 
 }
