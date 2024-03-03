@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,7 +68,12 @@ public class ClienteControllerRestFul {
 //	2b. eliminar
 	@DeleteMapping(path = "/{cedula}")
 	public ResponseEntity<String> borrar(@PathVariable String cedula) {
-		this.clienteService.eliminar(cedula);
+		try {
+			this.clienteService.eliminar(cedula);
+		} catch (DataIntegrityViolationException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.OK).body("La llave (clie_cedula)="+cedula+" todavía es referida desde la tabla «reserva»");
+		}
 		return ResponseEntity.status(HttpStatus.OK).body("El estudiante con identificación "+cedula+" ha sido eliminado");
 	}
 	
