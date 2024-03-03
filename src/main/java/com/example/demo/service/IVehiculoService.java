@@ -19,5 +19,6 @@ public interface IVehiculoService {
 	//EXTRA
 	public List<String> buscarMarcasVehiculos();
 	public List<VehiculoDTO> obtenerTodos();
+	public List<String> obtenerModelosPorMarca(String marca);
 
 }

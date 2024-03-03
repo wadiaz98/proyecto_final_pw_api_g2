@@ -3,6 +3,7 @@ package com.example.demo.repository.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +36,8 @@ public class Cliente {
 	@Column(name="clie_tipo")
 	private String tipo;
 	
-	@OneToMany(mappedBy = "cliente")
+	
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
 	
 

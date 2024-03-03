@@ -68,13 +68,20 @@ public class VehiculoControllerRestFul {
 		VehiculoTO vehiculo = this.iVehiculoService.buscar(placa);
 		return ResponseEntity.status(HttpStatus.OK).body(vehiculo);
 	}
-	
+
 	// buscar TODOS los vehiculos
-		@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<VehiculoDTO>> buscarTodos() {
-			List<VehiculoDTO> vehiculos = this.iVehiculoService.obtenerTodos();
-			return ResponseEntity.status(HttpStatus.OK).body(vehiculos);
-		}
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<VehiculoDTO>> buscarTodos() {
+		List<VehiculoDTO> vehiculos = this.iVehiculoService.obtenerTodos();
+		return ResponseEntity.status(HttpStatus.OK).body(vehiculos);
+	}
+
+	// buscar TODOS los vehiculos
+	@GetMapping(path = "/modelos/{marca}" ,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> buscarModelosPorMarca(@PathVariable String marca) {
+		List<String> modelos = this.iVehiculoService.obtenerModelosPorMarca(marca);
+		return ResponseEntity.status(HttpStatus.OK).body(modelos);
+	}
 
 	// actualizar
 	@PutMapping(path = "/{placa}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -98,7 +105,7 @@ public class VehiculoControllerRestFul {
 		} catch (InvalidDataAccessApiUsageException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK)
-					.body("La placa <<"+placa+">> no se puede eliminar porque no existe en la base de datos.");
+					.body("La placa <<" + placa + ">> no se puede eliminar porque no existe en la base de datos.");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("El Vehículo con placa " + placa + " ha sido eliminado");
 	}
