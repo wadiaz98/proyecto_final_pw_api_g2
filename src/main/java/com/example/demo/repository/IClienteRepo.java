@@ -14,6 +14,7 @@ public interface IClienteRepo {
 	public void eliminar(String cedula);
 	
 	public List<ClienteDTO> buscarApellido(String apellido);
-	
 	public List<Cliente> reporte();
+	//extra
+	public List<ClienteDTO> buscarTodos();
 }

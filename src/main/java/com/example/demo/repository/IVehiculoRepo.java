@@ -14,7 +14,8 @@ public interface IVehiculoRepo {
 	
 	public List<VehiculoDTO> buscarMarca(String marca);
 	public List<VehiculoDTO> buscarMarcaModelo(String marca, String modelo);
-	
+	// EXTRA
 	public List<String> buscarMarcasVehiculos();
+	public List<VehiculoDTO> buscarTodos();
 
 }
