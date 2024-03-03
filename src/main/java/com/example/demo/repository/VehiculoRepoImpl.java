@@ -81,4 +81,12 @@ public class VehiculoRepoImpl implements IVehiculoRepo {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<String> buscarModelosPorMarca(String marca) {
+		// TODO Auto-generated method stub
+		TypedQuery<String> query = this.entityManager.createQuery("SELECT DISTINCT e.modelo FROM Vehiculo e WHERE e.marca=:marca", String.class);
+		query.setParameter("marca", marca);
+		return query.getResultList();
+	}
+
 }

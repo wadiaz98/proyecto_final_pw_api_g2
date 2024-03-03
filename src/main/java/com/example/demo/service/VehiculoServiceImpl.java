@@ -64,6 +64,12 @@ public class VehiculoServiceImpl implements IVehiculoService {
 		return this.iVehiculoRepo.buscarTodos();
 	}
 	
+	@Override
+	public List<String> obtenerModelosPorMarca(String marca) {
+		// TODO Auto-generated method stub
+		return this.iVehiculoRepo.buscarModelosPorMarca(marca);
+	}
+	
 	// FUNCIONES SERVICE
 	private Vehiculo convertToVehiculo(VehiculoTO vehiculoTO) {
 		Vehiculo vehiculo = new Vehiculo();
@@ -92,5 +98,7 @@ public class VehiculoServiceImpl implements IVehiculoService {
 		vehiculoTO.setValorDia(vehiculo.getValorDia());
 		return vehiculoTO;
 	}
+
+	
 
 }

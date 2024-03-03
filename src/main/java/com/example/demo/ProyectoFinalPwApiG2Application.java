@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.demo.repository.model.Cliente;
+import com.example.demo.repository.model.Reserva;
 import com.example.demo.repository.model.Vehiculo;
 import com.example.demo.service.IClienteService;
 import com.example.demo.service.IReservaService;
@@ -130,7 +131,6 @@ public class ProyectoFinalPwApiG2Application implements CommandLineRunner{
 //					}else {
 //						System.out.println("null");
 //					}
-//					System.out.println(x);
 //				});
 	}
 

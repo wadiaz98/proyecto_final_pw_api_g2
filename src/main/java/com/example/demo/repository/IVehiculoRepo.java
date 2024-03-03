@@ -17,5 +17,5 @@ public interface IVehiculoRepo {
 	// EXTRA
 	public List<String> buscarMarcasVehiculos();
 	public List<VehiculoDTO> buscarTodos();
-
+	public List<String> buscarModelosPorMarca(String marca);
 }
