@@ -1,4 +1,4 @@
-package com.example.demo.controller.model;
+package com.example.demo.repository.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +29,11 @@ public class Cliente {
 	private String genero;
 	@Column(name="clie_registro")
 	private String registro;
+	
+	@Column(name="clie_password")
+	private String password;
+	@Column(name="clie_tipo")
+	private String tipo;
 	
 	@OneToMany(mappedBy = "cliente")
 	private List<Reserva> reservas;
@@ -74,7 +79,18 @@ public class Cliente {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public List<Reserva> getReservas() {
 		return reservas;
 	}

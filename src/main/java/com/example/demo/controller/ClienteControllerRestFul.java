@@ -39,9 +39,8 @@ public class ClienteControllerRestFul {
 
 //	1c. Registrarse como cliente
 //	2a. Registrar cliente
-	@PostMapping(path = "/registro", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> RegistrarseComoCliente(@RequestBody ClienteTo cliente) {
-		cliente.setRegistro("C");
 		this.clienteService.registrarse(cliente);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body("El cliente " + cliente.getApellido() + " se ha registrado con exito!");

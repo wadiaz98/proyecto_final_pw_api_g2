@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.controller.model.Cliente;
-import com.example.demo.controller.model.Reserva;
-import com.example.demo.controller.model.Vehiculo;
 import com.example.demo.repository.IClienteRepo;
 import com.example.demo.repository.IReservaRepo;
 import com.example.demo.repository.IVehiculoRepo;
+import com.example.demo.repository.model.Cliente;
+import com.example.demo.repository.model.Reserva;
+import com.example.demo.repository.model.Vehiculo;
 
 @Service
 public class ReservaServiceImpl implements IReservaService {

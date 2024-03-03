@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.controller.model.Vehiculo;
 import com.example.demo.repository.IVehiculoRepo;
+import com.example.demo.repository.model.Vehiculo;
 import com.example.demo.service.dto.VehiculoDTO;
 import com.example.demo.service.to.VehiculoTO;
 
@@ -78,6 +78,12 @@ public class VehiculoServiceImpl implements IVehiculoService {
 		vehiculoTO.setPlaca(vehiculo.getPlaca());
 		vehiculoTO.setValorDia(vehiculo.getValorDia());
 		return vehiculoTO;
+	}
+
+	@Override
+	public List<String> buscarMarcasVehiculos() {
+		// TODO Auto-generated method stub
+		return this.iVehiculoRepo.buscarMarcasVehiculos();
 	}
 
 }

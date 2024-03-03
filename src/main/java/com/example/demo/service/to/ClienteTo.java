@@ -11,6 +11,9 @@ public class ClienteTo {
 	private String genero;
 	private String registro;
 	
+	private String tipo;
+	private String password;
+	
 	//SET Y GET
 	public String getCedula() {
 		return cedula;
@@ -47,6 +50,19 @@ public class ClienteTo {
 	}
 	public void setRegistro(String registro) {
 		this.registro = registro;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 

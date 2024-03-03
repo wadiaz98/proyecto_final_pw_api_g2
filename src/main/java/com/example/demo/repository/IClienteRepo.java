@@ -2,7 +2,7 @@ package com.example.demo.repository;
 
 import java.util.List;
 
-import com.example.demo.controller.model.Cliente;
+import com.example.demo.repository.model.Cliente;
 import com.example.demo.service.dto.ClienteDTO;
 
 

@@ -23,7 +23,7 @@ public class ReservaControllerRestFul {
 	private IReservaService iReservaService;
 
 //	1b. Reservar vehículo
-	@PostMapping(path = "/reserva", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> reservarVehiculo(@RequestBody ReservaDTO reserva) {
 		this.iReservaService.reservar(reserva.getCedula(), reserva.getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin());
 		return ResponseEntity.status(HttpStatus.OK).body("La reserva del vehiculo "+reserva.getPlaca()+" se ha registrado con exito!");

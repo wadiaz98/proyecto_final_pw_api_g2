@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.controller.model.Vehiculo;
+import com.example.demo.repository.model.Vehiculo;
 import com.example.demo.service.dto.VehiculoDTO;
 
 import jakarta.persistence.EntityManager;
@@ -62,6 +62,13 @@ public class VehiculoRepoImpl implements IVehiculoRepo {
 				VehiculoDTO.class);
 		query.setParameter("datoMarca", marca);
 		query.setParameter("datoModelo", modelo);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<String> buscarMarcasVehiculos() {
+		// TODO Auto-generated method stub
+		TypedQuery<String> query = this.entityManager.createQuery("SELECT DISTINCT e.marca FROM Vehiculo e", String.class);
 		return query.getResultList();
 	}
 

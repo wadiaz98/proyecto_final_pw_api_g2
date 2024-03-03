@@ -2,7 +2,7 @@ package com.example.demo.repository;
 
 import java.util.List;
 
-import com.example.demo.controller.model.Vehiculo;
+import com.example.demo.repository.model.Vehiculo;
 import com.example.demo.service.dto.VehiculoDTO;
 
 public interface IVehiculoRepo {
@@ -14,5 +14,7 @@ public interface IVehiculoRepo {
 	
 	public List<VehiculoDTO> buscarMarca(String marca);
 	public List<VehiculoDTO> buscarMarcaModelo(String marca, String modelo);
+	
+	public List<String> buscarMarcasVehiculos();
 
 }

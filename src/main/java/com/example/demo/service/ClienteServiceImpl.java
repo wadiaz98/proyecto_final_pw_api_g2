@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.controller.model.Cliente;
 import com.example.demo.repository.IClienteRepo;
+import com.example.demo.repository.model.Cliente;
 import com.example.demo.service.dto.ClienteDTO;
 import com.example.demo.service.to.ClienteTo;
 
@@ -68,6 +68,8 @@ public class ClienteServiceImpl implements IClienteService {
 		cliente.setGenero(clienteTo.getGenero());
 		cliente.setNombre(clienteTo.getNombre());
 		cliente.setRegistro(clienteTo.getRegistro());
+		cliente.setPassword(clienteTo.getPassword());
+		cliente.setTipo(clienteTo.getTipo());
 		return cliente;
 	}
 	
@@ -79,6 +81,8 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteTo.setGenero(cliente.getGenero());
 		clienteTo.setNombre(cliente.getNombre());
 		clienteTo.setRegistro(cliente.getRegistro());
+		clienteTo.setPassword(cliente.getPassword());
+		clienteTo.setTipo(cliente.getTipo());
 		return clienteTo;
 	}
 

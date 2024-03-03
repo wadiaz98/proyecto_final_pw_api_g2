@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.controller.model.Reserva;
+import com.example.demo.repository.model.Reserva;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

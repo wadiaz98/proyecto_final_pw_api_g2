@@ -9,8 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.demo.controller.model.Cliente;
-import com.example.demo.controller.model.Vehiculo;
+import com.example.demo.repository.model.Cliente;
+import com.example.demo.repository.model.Vehiculo;
 import com.example.demo.service.IClienteService;
 import com.example.demo.service.IReservaService;
 import com.example.demo.service.IVehiculoService;

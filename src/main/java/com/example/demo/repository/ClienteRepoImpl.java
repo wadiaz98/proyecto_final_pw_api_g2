@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.controller.model.Cliente;
+import com.example.demo.repository.model.Cliente;
 import com.example.demo.service.dto.ClienteDTO;
 
 import jakarta.persistence.EntityManager;

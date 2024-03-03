@@ -3,7 +3,7 @@ package com.example.demo.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.example.demo.controller.model.Reserva;
+import com.example.demo.repository.model.Reserva;
 
 public interface IReservaService {
 	
