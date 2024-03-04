@@ -1,8 +1,13 @@
 package com.example.demo.service.to;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ClienteTo {
+import org.springframework.hateoas.RepresentationModel;
+
+public class ClienteTo extends RepresentationModel<ClienteTo> implements Serializable{
+
+	private static final long serialVersionUID = 4299542167028959693L;
 	
 	private String cedula;
 	private String nombre;

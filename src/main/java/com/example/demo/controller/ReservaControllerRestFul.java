@@ -56,10 +56,16 @@ public class ReservaControllerRestFul {
 		RetiroTO retiro =  this.iReservaService.retirarVehiculoReservado(numero);
 		return ResponseEntity.status(HttpStatus.OK).body(retiro);
 	}
+//	buscar reporte 
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ReservaTO> obtenerReporte(@RequestParam Integer numero){
+		ReservaTO reserva = this.iReservaService.obtener(numero);
+		return ResponseEntity.status(HttpStatus.OK).body(reserva);
+	}
 	
 	//3a. Reportes de reservas
 	@GetMapping(path = "/reportes", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ReporteTO>> obtenerReporte(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
+	public ResponseEntity<List<ReporteTO>> obtenerReportes(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
 		List<ReporteTO> list = this.iReservaService.reporte(fechaInicio, fechaFin);
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}

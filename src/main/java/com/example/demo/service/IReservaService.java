@@ -16,6 +16,8 @@ public interface IReservaService {
 	public void reservar(ReservaTO reserva);
 	public RetiroTO retirarVehiculoReservado(Integer numero);
 	public List<ReporteTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	
+	public ReservaTO obtener(Integer numero);
 
 	
 }

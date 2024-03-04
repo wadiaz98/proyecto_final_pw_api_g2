@@ -1,11 +1,16 @@
 package com.example.demo.service.to;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import org.springframework.hateoas.RepresentationModel;
 
 import jakarta.persistence.Column;
 
-public class VehiculoTO {
+public class VehiculoTO extends RepresentationModel<VehiculoTO> implements Serializable {
 
+	private static final long serialVersionUID = 4923715170076797824L;
+	
 	private String placa;
 	private String modelo;	
 	private String marca;	

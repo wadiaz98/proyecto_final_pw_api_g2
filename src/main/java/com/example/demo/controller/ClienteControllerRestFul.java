@@ -102,7 +102,7 @@ public class ClienteControllerRestFul {
 	
 	//EXTRA
 	//Login
-	@GetMapping(path = "/verificar", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/verificar", produces = MediaType.APPLICATION_JSON_VALUE)
 	private ResponseEntity<Boolean> verificar(@RequestBody ClienteTo cliente) {
 		boolean verificador = this.clienteService.verificador(cliente);
 		return ResponseEntity.status(HttpStatus.OK).body(verificador);

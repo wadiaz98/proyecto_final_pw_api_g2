@@ -10,6 +10,7 @@ public class RetiroTO {
 	private LocalDateTime fechaInicio;
 	private LocalDateTime fechaFin;
 	private String cedula;
+	private LocalDateTime fechaRetiro;
 	
 	// SET Y GET
 	public String getPlaca() {
@@ -47,6 +48,12 @@ public class RetiroTO {
 	}
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
+	}
+	public LocalDateTime getFechaRetiro() {
+		return fechaRetiro;
+	}
+	public void setFechaRetiro(LocalDateTime fechaRetiro) {
+		this.fechaRetiro = fechaRetiro;
 	}
 	
 	
