@@ -33,8 +33,8 @@ public class VehiculoControllerRestFul {
 	private IVehiculoService iVehiculoService;
 
 //	1a. Buscar vehículos disponibles
-	@GetMapping(path = "/{marca}&{modelo}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<VehiculoDTO>> buscarVehiculos(@PathVariable String marca, @PathVariable String modelo) {
+	@GetMapping(path = "/filtro", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<VehiculoDTO>> buscarVehiculos(@RequestParam String marca, @RequestParam String modelo) {
 		List<VehiculoDTO> vehiculos = this.iVehiculoService.buscarVehiculosDisponiblres(marca, modelo);
 		return ResponseEntity.status(HttpStatus.OK).body(vehiculos);
 	}
