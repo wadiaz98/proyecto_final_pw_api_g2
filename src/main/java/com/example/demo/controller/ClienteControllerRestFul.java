@@ -99,5 +99,13 @@ public class ClienteControllerRestFul {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body("El estudiante con identificación " + cedula + " ha sido eliminado");
 	}
+	
+	//EXTRA
+	//Login
+	@GetMapping(path = "/verificar", produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<Boolean> verificar(@RequestBody ClienteTo cliente) {
+		boolean verificador = this.clienteService.verificador(cliente);
+		return ResponseEntity.status(HttpStatus.OK).body(verificador);
+	}
 
 }

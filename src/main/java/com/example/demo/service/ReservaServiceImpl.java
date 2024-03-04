@@ -14,7 +14,9 @@ import com.example.demo.repository.IVehiculoRepo;
 import com.example.demo.repository.model.Cliente;
 import com.example.demo.repository.model.Reserva;
 import com.example.demo.repository.model.Vehiculo;
+import com.example.demo.service.dto.ReservaDTO;
 import com.example.demo.service.to.ReservaTO;
+import com.example.demo.service.to.RetiroTO;
 
 @Service
 public class ReservaServiceImpl implements IReservaService {
@@ -80,10 +82,10 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	@Override
-	public Reserva retirarVehiculoReservado(Integer numero) {
+	public RetiroTO retirarVehiculoReservado(Integer numero) {
 		// TODO Auto-generated method stub
 		Reserva reserva = this.iReservaRepo.buscar(numero);
-		if(reserva.getEstado().equals("G")) {
+		if(!reserva.getEstado().equals("E")) { // estado = generado (G)
 			//VEHICULO: Cambio de estado(No disponible "ND")
 			Vehiculo vehiculo= reserva.getVehiculo();
 			vehiculo.setEstado("ND"); // D -> ND
@@ -92,12 +94,12 @@ public class ReservaServiceImpl implements IReservaService {
 			//RESERVA: Cambio de estado(En ejecucion "E")
 			reserva.setEstado("E"); // G -> E
 			this.iReservaRepo.actualizar(reserva);
+			return this.convertirRetiroTO(reserva);
 		}else {
 			System.out.println("El vehiculo no ha sido reservado");
-		}
-		
-		return reserva;
-	}
+			return null;
+		}		
+	}	
 
 	@Override
 	public List<ReservaTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
@@ -120,6 +122,17 @@ public class ReservaServiceImpl implements IReservaService {
 		tmp.setFechaFin(reserva.getFechaFin());
 		tmp.setCliente(reserva.getCliente());
 		tmp.setVehiculo(reserva.getVehiculo());
+		return tmp;
+	}
+	
+	private RetiroTO convertirRetiroTO(Reserva reserva) {
+		RetiroTO tmp = new RetiroTO();	
+		tmp.setPlaca(reserva.getVehiculo().getPlaca());
+		tmp.setModelo(reserva.getVehiculo().getModelo());
+		tmp.setEstado(reserva.getVehiculo().getEstado());
+		tmp.setFechaInicio(reserva.getFechaInicio());
+		tmp.setFechaFin(reserva.getFechaFin());
+		tmp.setCedula(reserva.getCliente().getCedula());
 		return tmp;
 	}
 

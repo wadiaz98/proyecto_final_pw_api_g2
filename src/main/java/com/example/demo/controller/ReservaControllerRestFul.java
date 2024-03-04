@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,7 @@ import com.example.demo.service.IVehiculoService;
 import com.example.demo.service.dto.ReservaDTO;
 import com.example.demo.service.to.ReporteTO;
 import com.example.demo.service.to.ReservaTO;
+import com.example.demo.service.to.RetiroTO;
 
 @RestController
 @RequestMapping("/reservas")
@@ -31,8 +34,6 @@ public class ReservaControllerRestFul {
 	
 	@Autowired
 	private IReservaService iReservaService;
-	@Autowired
-	private IClienteService clienteService;
 
 //	1b. Reservar vehículo
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -41,9 +42,16 @@ public class ReservaControllerRestFul {
 		return ResponseEntity.status(HttpStatus.OK).body("La reserva del vehiculo "+reserva.getPlaca()+" se ha registrado con exito!");
 	}
 	
+//	2e. Retirar un vehículo reservado
+	@PutMapping(path = "/{numero}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RetiroTO> retirarVehiculoReservado(@PathVariable Integer numero) {
+		RetiroTO retiro =  this.iReservaService.retirarVehiculoReservado(numero);
+		return ResponseEntity.status(HttpStatus.OK).body(retiro);
+	}
+	
 	//3a. Reportes de reservas
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ReporteTO>> obtenerReporte(@RequestBody ReporteTO reporte, @RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
+	public ResponseEntity<List<ReporteTO>> obtenerReporte(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
 		List<ReservaTO> list = this.iReservaService.reporte(fechaInicio, fechaFin);
 		List<ReporteTO> result = new ArrayList<>();
 		for(ReservaTO res : list) {

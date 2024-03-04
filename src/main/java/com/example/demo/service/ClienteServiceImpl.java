@@ -66,6 +66,16 @@ public class ClienteServiceImpl implements IClienteService {
 		return this.clienteRepo.buscarTodos();
 	}	
 	
+	@Override
+	public boolean verificador(ClienteTo cliente) {
+		boolean flag = false;
+		ClienteTo tmp = this.buscar(cliente.getCedula());
+		if(tmp.getPassword().equals(cliente.getPassword())) {
+			flag = true;
+		}
+		return flag;
+	}
+	
 	// FUNCIONES 
 	private Cliente convertToClient(ClienteTo clienteTo){
 		Cliente cliente = new Cliente();
@@ -92,5 +102,7 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteTo.setTipo(cliente.getTipo());
 		return clienteTo;
 	}
+	
+	
 
 }
