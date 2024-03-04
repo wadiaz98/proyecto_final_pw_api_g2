@@ -36,10 +36,18 @@ public class ReservaControllerRestFul {
 	private IReservaService iReservaService;
 
 //	1b. Reservar vehículo
+//	consultar precio
 	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BigDecimal> consltarDisponibilidad(@RequestBody ReservaDTO reserva) {
+	public ResponseEntity<BigDecimal> consultarDisponibilidad(@RequestBody ReservaDTO reserva) {
 		BigDecimal res = this.iReservaService.consultarReserva(reserva.getCedula(), reserva.getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin());
 		return ResponseEntity.status(HttpStatus.OK).body(res);
+	}
+	
+//	reservar
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> reservar(@RequestBody ReservaTO reserva) {
+		this.iReservaService.reservar(reserva);
+		return ResponseEntity.status(HttpStatus.OK).body("La reserva número: "+reserva.getNumero()+" se a guardado con éxito");
 	}
 	
 //	2e. Retirar un vehículo reservado
@@ -50,16 +58,10 @@ public class ReservaControllerRestFul {
 	}
 	
 	//3a. Reportes de reservas
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ReporteTO>> obtenerReporte(@RequestBody ReporteTO reporte, @RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
+	@GetMapping(path = "/reportes", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ReporteTO>> obtenerReporte(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
 		List<ReporteTO> list = this.iReservaService.reporte(fechaInicio, fechaFin);
-		List<ReporteTO> result = new ArrayList<>();
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 	
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> reservar(@RequestBody ReservaTO reserva) {
-		this.iReservaService.reservar(reserva);
-		return ResponseEntity.status(HttpStatus.OK).body("La reserva número: "+reserva.getNumero()+" se a guardado con éxito");
-	}
 }

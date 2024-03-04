@@ -41,31 +41,7 @@ public class ReservaServiceImpl implements IReservaService {
 			BigDecimal total = subtotal.add(valorIva);
 			res=total;
 		}
-		
 		return res;
-		
-		
-	}
-	
-	
-	
-	public Integer calcularDias(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-		Integer numDia =0;
-		if(fechaFin.getYear()> fechaInicio.getYear()) {
-				if(fechaFin.getYear()%4==0) {// bisiesto
-					numDia += (366-fechaFin.getYear()+1);
-				}else if(fechaInicio.getYear()%4==0){
-					numDia += (366-fechaInicio.getYear()+1);
-				}else if(fechaFin.getYear()%4!=0){ // no bisiesto
-					numDia += (365-fechaFin.getYear()+1);
-				}else {
-					numDia += (365-fechaFin.getYear()+1);
-			}
-			numDia = fechaFin.getDayOfYear();
-		}else{
-		numDia = Math.abs((fechaFin.getDayOfYear() - fechaInicio.getDayOfYear()) + 1);
-		}
-		return numDia;
 	}
 
 	@Override
@@ -111,6 +87,32 @@ public class ReservaServiceImpl implements IReservaService {
 		return nuevo;
 	}
 	
+	@Override
+	public void reservar(ReservaTO reserva) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//FUCIONES SERVICE	
+	public Integer calcularDias(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		Integer numDia =0;
+		if(fechaFin.getYear()> fechaInicio.getYear()) {
+				if(fechaFin.getYear()%4==0) {// bisiesto
+					numDia += (366-fechaFin.getYear()+1);
+				}else if(fechaInicio.getYear()%4==0){
+					numDia += (366-fechaInicio.getYear()+1);
+				}else if(fechaFin.getYear()%4!=0){ // no bisiesto
+					numDia += (365-fechaFin.getYear()+1);
+				}else {
+					numDia += (365-fechaFin.getYear()+1);
+			}
+			numDia = fechaFin.getDayOfYear();
+		}else{
+		numDia = Math.abs((fechaFin.getDayOfYear() - fechaInicio.getDayOfYear()) + 1);
+		}
+		return numDia;
+	}
+	
 	private ReservaTO convertirTO(Reserva reserva) {
 		ReservaTO tmp = new ReservaTO();
 		tmp.setNumero(reserva.getNumero());
@@ -133,12 +135,6 @@ public class ReservaServiceImpl implements IReservaService {
 		tmp.setFechaFin(reserva.getFechaFin());
 		tmp.setCedula(reserva.getCliente().getCedula());
 		return tmp;
-	}
-
-	@Override
-	public void reservar(ReservaTO reserva) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
