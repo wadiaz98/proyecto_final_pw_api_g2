@@ -59,8 +59,13 @@ public class ReservaControllerRestFul {
 //	buscar reporte 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ReservaTO> obtenerReporte(@RequestParam Integer numero){
-		ReservaTO reserva = this.iReservaService.obtener(numero);
-		return ResponseEntity.status(HttpStatus.OK).body(reserva);
+		try {
+			ReservaTO reserva = this.iReservaService.obtener(numero);
+			return ResponseEntity.status(HttpStatus.OK).body(reserva);
+		}catch (NullPointerException  e) {
+			//e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}		
 	}
 	
 	//3a. Reportes de reservas

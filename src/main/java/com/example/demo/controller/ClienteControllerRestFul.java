@@ -88,11 +88,11 @@ public class ClienteControllerRestFul {
 		try {
 			this.clienteService.eliminar(cedula);
 		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK).body(
-					"La llave (clie_cedula)=" + cedula + " no se puede eliminar porque tiene registrada una «reserva»");
+					"El cliente con cedula <<" + cedula + ">> NO se puede eliminar porque tiene registrada una «reserva»");
 		} catch (InvalidDataAccessApiUsageException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK)
 					.body("No se puede eliminar la cedula <<" + cedula + ">> porque no existe en la base de datos.");
 		}
