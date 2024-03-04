@@ -1,12 +1,16 @@
 package com.example.demo.service.to;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.example.demo.repository.model.Cliente;
 import com.example.demo.repository.model.Vehiculo;
 
-public class ReservaTO {
+public class ReservaTO implements Serializable{
+
+	private static final long serialVersionUID = -7935534310864724699L;
+	
 	private Integer numero;
 	private BigDecimal subtotal;
 	private String estado;
@@ -14,8 +18,9 @@ public class ReservaTO {
 	private BigDecimal total;
 	private LocalDateTime fechaInicio;
 	private LocalDateTime fechaFin;
-	private Cliente cliente;
-	private Vehiculo vehiculo;
+	private String cliente;
+	private String vehiculo;
+	
 	public Integer getNumero() {
 		return numero;
 	}
@@ -58,16 +63,16 @@ public class ReservaTO {
 	public void setFechaFin(LocalDateTime fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-	public Cliente getCliente() {
+	public String getCliente() {
 		return cliente;
 	}
-	public void setCliente(Cliente cliente) {
+	public void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
-	public Vehiculo getVehiculo() {
+	public String getVehiculo() {
 		return vehiculo;
 	}
-	public void setVehiculo(Vehiculo vehiculo) {
+	public void setVehiculo(String vehiculo) {
 		this.vehiculo = vehiculo;
 	}
 	

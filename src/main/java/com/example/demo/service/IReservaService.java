@@ -15,8 +15,10 @@ public interface IReservaService {
 	public BigDecimal consultarValorReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 	public LocalDateTime consultarReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 	public void reservar(ReservaTO reserva);
-	public RetiroTO retirarVehiculoReservado(Integer numero);
+	public String retirarVehiculoReservado(Integer numero);
 	public List<ReporteTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	
+	public ReservaTO obtener(Integer numero);
 
 	
 }

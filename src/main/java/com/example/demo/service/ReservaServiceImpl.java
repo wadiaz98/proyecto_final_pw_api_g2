@@ -37,7 +37,6 @@ public class ReservaServiceImpl implements IReservaService {
 		BigDecimal valorIva = subtotal.multiply(new BigDecimal(0.12));
 		BigDecimal total = subtotal.add(valorIva);
 		res = total;
-
 		return res;
 	}
 
@@ -64,23 +63,27 @@ public class ReservaServiceImpl implements IReservaService {
 		return rese.getFechaFin();
 	}
 
-	@Override
-	public RetiroTO retirarVehiculoReservado(Integer numero) {
+	public String retirarVehiculoReservado(Integer numero) {
 		// TODO Auto-generated method stub
+		LocalDateTime fechaHoy = LocalDateTime.now();
 		Reserva reserva = this.iReservaRepo.buscar(numero);
-		if (!reserva.getEstado().equals("E")) { // estado = generado (G)
-			// VEHICULO: Cambio de estado(No disponible "ND")
-			Vehiculo vehiculo = reserva.getVehiculo();
-			vehiculo.setEstado("ND"); // D -> ND
-			this.iVehiculoRepo.actualizar(vehiculo);
 
-			// RESERVA: Cambio de estado(En ejecucion "E")
-			reserva.setEstado("E"); // G -> E
-			this.iReservaRepo.actualizar(reserva);
-			return this.convertirRetiroTO(reserva);
-		} else {
-			System.out.println("El vehiculo no ha sido reservado");
-			return null;
+		if(reserva.getEstado().equals("E")) {
+			return "El retiro ya ha sido EJECUTADO, no puedes retirar otra vez";
+		}else if (fechaHoy.isBefore(reserva.getFechaFin()) && fechaHoy.isAfter(reserva.getFechaInicio()) ) {
+	
+				// VEHICULO: Cambio de estado(No disponible "ND")
+				Vehiculo vehiculo = reserva.getVehiculo();
+				vehiculo.setEstado("ND"); // D -> ND
+				this.iVehiculoRepo.actualizar(vehiculo);
+
+				// RESERVA: Cambio de estado(En ejecucion "E")
+				reserva.setEstado("E"); // G -> E
+				this.iReservaRepo.actualizar(reserva);
+				
+				return "El vehiculo ha sido retirado con EXITO";
+		}else {
+			return "El vehiculo NO puede ser retirado fuera de las fechas indicadas";
 		}
 	}
 
@@ -105,6 +108,12 @@ public class ReservaServiceImpl implements IReservaService {
 			nuevo.add(tmp);
 		}
 		return nuevo;
+	}
+
+	@Override
+	public ReservaTO obtener(Integer numero) {
+		// TODO Auto-generated method stub
+		return this.convertirTO(this.iReservaRepo.buscar(numero));
 	}
 
 	// FUCIONES SERVICE
@@ -135,8 +144,8 @@ public class ReservaServiceImpl implements IReservaService {
 		tmp.setTotal(reserva.getValorTotal());
 		tmp.setFechaInicio(reserva.getFechaInicio());
 		tmp.setFechaFin(reserva.getFechaFin());
-		tmp.setCliente(reserva.getCliente());
-		tmp.setVehiculo(reserva.getVehiculo());
+		tmp.setCliente(reserva.getCliente().getCedula());
+		tmp.setVehiculo(reserva.getVehiculo().getPlaca());
 		return tmp;
 	}
 

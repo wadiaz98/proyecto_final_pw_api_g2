@@ -99,11 +99,11 @@ public class VehiculoControllerRestFul {
 		try {
 			this.iVehiculoService.eliminar(placa);
 		} catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK)
-					.body("La llave (vehi_placa)=" + placa + " todavía es referida desde la tabla «reserva»");
+					.body("El vehículo con placa <<" + placa + ">> NO se puede eliminar porque tiene registrada una «reserva»");
 		} catch (InvalidDataAccessApiUsageException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK)
 					.body("La placa <<" + placa + ">> no se puede eliminar porque no existe en la base de datos.");
 		}
