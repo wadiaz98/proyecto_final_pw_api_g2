@@ -35,31 +35,23 @@ public class ReservaControllerRestFul {
 	private IClienteService clienteService;
 
 //	1b. Reservar vehículo
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> reservarVehiculo(@RequestBody ReservaDTO reserva) {
-		this.iReservaService.reservar(reserva.getCedula(), reserva.getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin());
-		return ResponseEntity.status(HttpStatus.OK).body("La reserva del vehiculo "+reserva.getPlaca()+" se ha registrado con exito!");
+	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BigDecimal> consltarDisponibilidad(@RequestBody ReservaDTO reserva) {
+		BigDecimal res = this.iReservaService.consultarReserva(reserva.getCedula(), reserva.getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin());
+		return ResponseEntity.status(HttpStatus.OK).body(res);
 	}
 	
 	//3a. Reportes de reservas
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ReporteTO>> obtenerReporte(@RequestBody ReporteTO reporte, @RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
-		List<ReservaTO> list = this.iReservaService.reporte(fechaInicio, fechaFin);
+		List<ReporteTO> list = this.iReservaService.reporte(fechaInicio, fechaFin);
 		List<ReporteTO> result = new ArrayList<>();
-		for(ReservaTO res : list) {
-			ReporteTO tmp = new ReporteTO();
-			tmp.setNumero(res.getNumero());
-			tmp.setSubtotal(res.getSubtotal());
-			tmp.setEstado(res.getEstado());
-			tmp.setIva(res.getIva());
-			tmp.setTotal(res.getTotal());
-			tmp.setCedula(res.getCliente().getCedula());
-			tmp.setApellido(res.getCliente().getApellido());
-			tmp.setPlaca(res.getVehiculo().getPlaca());
-			tmp.setMarca(res.getVehiculo().getMarca());
-			tmp.setModelo(res.getVehiculo().getModelo());
-			result.add(tmp);			
-		}
 		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> reservar(@RequestBody ReservaTO reserva) {
+		this.iReservaService.reservar(reserva);
+		return ResponseEntity.status(HttpStatus.OK).body("La reserva número: "+reserva.getNumero()+" se a guardado con éxito");
 	}
 }
