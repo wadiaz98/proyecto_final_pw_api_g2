@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,11 +39,11 @@ public class Reserva {
 	@Column(name="rese_fecha_fin")
 	private LocalDateTime fechaFin;
 	
-	@ManyToOne
-	@JoinColumn(name = "rese_cedula_cliente")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rese_cedula_cliente" )
 	private Cliente cliente;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="rese_placa_vehiculo")
 	private Vehiculo vehiculo;
 

@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.repository.IClienteRepo;
 import com.example.demo.repository.IReservaRepo;
 import com.example.demo.repository.IVehiculoRepo;
-import com.example.demo.repository.model.Cliente;
 import com.example.demo.repository.model.Reserva;
 import com.example.demo.repository.model.Vehiculo;
-import com.example.demo.service.dto.ReservaConsultaDTO;
 import com.example.demo.service.to.ReporteTO;
 import com.example.demo.service.to.ReservaTO;
 import com.example.demo.service.to.RetiroTO;
@@ -28,49 +26,71 @@ public class ReservaServiceImpl implements IReservaService {
 	private IClienteRepo clienteRepo;
 	@Autowired
 	private IVehiculoRepo iVehiculoRepo;
-	
+
 	@Override
-	public BigDecimal consultarReserva(String cedula, String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+	public BigDecimal consultarValorReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
 		Vehiculo vehiculo = this.iVehiculoRepo.buscar(placa);
 
 		BigDecimal res = null;
 		int dias = calcularDias(fechaInicio, fechaFin);
-		if(!vehiculo.getEstado().equals("ND")) {
-			BigDecimal subtotal= vehiculo.getValorDia().multiply(new BigDecimal(dias));
-			BigDecimal valorIva= subtotal.multiply(new BigDecimal(0.12));
-			BigDecimal total = subtotal.add(valorIva);
-			res=total;
-		}
+		BigDecimal subtotal = vehiculo.getValorDia().multiply(new BigDecimal(dias));
+		BigDecimal valorIva = subtotal.multiply(new BigDecimal(0.12));
+		BigDecimal total = subtotal.add(valorIva);
+		res = total;
+
 		return res;
+	}
+
+	@Override
+	public void reservar(ReservaTO reserva) {
+		// TODO Auto-generated method stub
+		Reserva res = new Reserva();
+		res.setCliente(reserva.getCliente());
+		res.setVehiculo(reserva.getVehiculo());
+		res.setEstado("G");
+		res.setFechaInicio(reserva.getFechaInicio());
+		res.setFechaFin(reserva.getFechaFin());
+		int dias= this.calcularDias(reserva.getFechaInicio(), reserva.getFechaFin());
+		res.setValorSubtotal(res.getVehiculo().getValorDia().multiply(new BigDecimal(dias)));
+		res.setIva(new BigDecimal(0.12));
+		res.setValorTotal(this.consultarValorReserva(reserva.getVehiculo().getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin()));
+		this.iReservaRepo.insertar(res);
+	}
+
+	@Override
+	public LocalDateTime consultarReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		Vehiculo vehiculo = this.iVehiculoRepo.buscar(placa);
+		Reserva rese = vehiculo.getReservas().get(vehiculo.getReservas().size() - 1);
+		return rese.getFechaFin();
 	}
 
 	@Override
 	public RetiroTO retirarVehiculoReservado(Integer numero) {
 		// TODO Auto-generated method stub
 		Reserva reserva = this.iReservaRepo.buscar(numero);
-		if(!reserva.getEstado().equals("E")) { // estado = generado (G)
-			//VEHICULO: Cambio de estado(No disponible "ND")
-			Vehiculo vehiculo= reserva.getVehiculo();
+		if (!reserva.getEstado().equals("E")) { // estado = generado (G)
+			// VEHICULO: Cambio de estado(No disponible "ND")
+			Vehiculo vehiculo = reserva.getVehiculo();
 			vehiculo.setEstado("ND"); // D -> ND
 			this.iVehiculoRepo.actualizar(vehiculo);
-			
-			//RESERVA: Cambio de estado(En ejecucion "E")
+
+			// RESERVA: Cambio de estado(En ejecucion "E")
 			reserva.setEstado("E"); // G -> E
 			this.iReservaRepo.actualizar(reserva);
 			return this.convertirRetiroTO(reserva);
-		}else {
+		} else {
 			System.out.println("El vehiculo no ha sido reservado");
 			return null;
-		}		
-	}	
+		}
+	}
 
 	@Override
 	public List<ReporteTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
 		// TODO Auto-generated method stub
 		List<Reserva> listado = this.iReservaRepo.buscarReporte(fechaInicio, fechaFin);
 		List<ReporteTO> nuevo = new ArrayList();
-		
-		for(Reserva res : listado) {
+
+		for (Reserva res : listado) {
 			ReporteTO tmp = new ReporteTO();
 			tmp.setNumero(res.getNumero());
 			tmp.setSubtotal(res.getValorSubtotal());
@@ -82,37 +102,31 @@ public class ReservaServiceImpl implements IReservaService {
 			tmp.setPlaca(res.getVehiculo().getPlaca());
 			tmp.setMarca(res.getVehiculo().getMarca());
 			tmp.setModelo(res.getVehiculo().getModelo());
-			nuevo.add(tmp);			
+			nuevo.add(tmp);
 		}
 		return nuevo;
 	}
-	
-	@Override
-	public void reservar(ReservaTO reserva) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	//FUCIONES SERVICE	
+
+	// FUCIONES SERVICE
 	public Integer calcularDias(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-		Integer numDia =0;
-		if(fechaFin.getYear()> fechaInicio.getYear()) {
-				if(fechaFin.getYear()%4==0) {// bisiesto
-					numDia += (366-fechaFin.getYear()+1);
-				}else if(fechaInicio.getYear()%4==0){
-					numDia += (366-fechaInicio.getYear()+1);
-				}else if(fechaFin.getYear()%4!=0){ // no bisiesto
-					numDia += (365-fechaFin.getYear()+1);
-				}else {
-					numDia += (365-fechaFin.getYear()+1);
+		Integer numDia = 0;
+		if (fechaFin.getYear() > fechaInicio.getYear()) {
+			if (fechaFin.getYear() % 4 == 0) {// bisiesto
+				numDia += (366 - fechaFin.getYear() + 1);
+			} else if (fechaInicio.getYear() % 4 == 0) {
+				numDia += (366 - fechaInicio.getYear() + 1);
+			} else if (fechaFin.getYear() % 4 != 0) { // no bisiesto
+				numDia += (365 - fechaFin.getYear() + 1);
+			} else {
+				numDia += (365 - fechaFin.getYear() + 1);
 			}
 			numDia = fechaFin.getDayOfYear();
-		}else{
-		numDia = Math.abs((fechaFin.getDayOfYear() - fechaInicio.getDayOfYear()) + 1);
+		} else {
+			numDia = Math.abs((fechaFin.getDayOfYear() - fechaInicio.getDayOfYear()) + 1);
 		}
 		return numDia;
 	}
-	
+
 	private ReservaTO convertirTO(Reserva reserva) {
 		ReservaTO tmp = new ReservaTO();
 		tmp.setNumero(reserva.getNumero());
@@ -125,9 +139,9 @@ public class ReservaServiceImpl implements IReservaService {
 		tmp.setVehiculo(reserva.getVehiculo());
 		return tmp;
 	}
-	
+
 	private RetiroTO convertirRetiroTO(Reserva reserva) {
-		RetiroTO tmp = new RetiroTO();	
+		RetiroTO tmp = new RetiroTO();
 		tmp.setPlaca(reserva.getVehiculo().getPlaca());
 		tmp.setModelo(reserva.getVehiculo().getModelo());
 		tmp.setEstado(reserva.getVehiculo().getEstado());
