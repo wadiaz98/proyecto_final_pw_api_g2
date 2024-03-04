@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.repository.IClienteRepo;
 import com.example.demo.repository.IReservaRepo;
 import com.example.demo.repository.IVehiculoRepo;
-import com.example.demo.repository.model.Cliente;
 import com.example.demo.repository.model.Reserva;
 import com.example.demo.repository.model.Vehiculo;
-import com.example.demo.service.dto.ReservaConsultaDTO;
 import com.example.demo.service.to.ReporteTO;
 import com.example.demo.service.to.ReservaTO;
 import com.example.demo.service.to.RetiroTO;
@@ -30,21 +28,41 @@ public class ReservaServiceImpl implements IReservaService {
 	private IVehiculoRepo iVehiculoRepo;
 
 	@Override
-	public BigDecimal consultarReserva(String cedula, String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+	public BigDecimal consultarValorReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
 		Vehiculo vehiculo = this.iVehiculoRepo.buscar(placa);
 
 		BigDecimal res = null;
 		int dias = calcularDias(fechaInicio, fechaFin);
-		if (!vehiculo.getEstado().equals("ND")) {
-			BigDecimal subtotal = vehiculo.getValorDia().multiply(new BigDecimal(dias));
-			BigDecimal valorIva = subtotal.multiply(new BigDecimal(0.12));
-			BigDecimal total = subtotal.add(valorIva);
-			res = total;
-		}
+		BigDecimal subtotal = vehiculo.getValorDia().multiply(new BigDecimal(dias));
+		BigDecimal valorIva = subtotal.multiply(new BigDecimal(0.12));
+		BigDecimal total = subtotal.add(valorIva);
+		res = total;
 		return res;
 	}
 
 	@Override
+	public void reservar(ReservaTO reserva) {
+		// TODO Auto-generated method stub
+		Reserva res = new Reserva();
+		res.setCliente(reserva.getCliente());
+		res.setVehiculo(reserva.getVehiculo());
+		res.setEstado("G");
+		res.setFechaInicio(reserva.getFechaInicio());
+		res.setFechaFin(reserva.getFechaFin());
+		int dias= this.calcularDias(reserva.getFechaInicio(), reserva.getFechaFin());
+		res.setValorSubtotal(res.getVehiculo().getValorDia().multiply(new BigDecimal(dias)));
+		res.setIva(new BigDecimal(0.12));
+		res.setValorTotal(this.consultarValorReserva(reserva.getVehiculo().getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin()));
+		this.iReservaRepo.insertar(res);
+	}
+
+	@Override
+	public LocalDateTime consultarReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+		Vehiculo vehiculo = this.iVehiculoRepo.buscar(placa);
+		Reserva rese = vehiculo.getReservas().get(vehiculo.getReservas().size() - 1);
+		return rese.getFechaFin();
+	}
+
 	public String retirarVehiculoReservado(Integer numero) {
 		// TODO Auto-generated method stub
 		LocalDateTime fechaHoy = LocalDateTime.now();
@@ -67,7 +85,6 @@ public class ReservaServiceImpl implements IReservaService {
 		}else {
 			return "El vehiculo NO puede ser retirado fuera de las fechas indicadas";
 		}
-
 	}
 
 	@Override
@@ -91,12 +108,6 @@ public class ReservaServiceImpl implements IReservaService {
 			nuevo.add(tmp);
 		}
 		return nuevo;
-	}
-
-	@Override
-	public void reservar(ReservaTO reserva) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

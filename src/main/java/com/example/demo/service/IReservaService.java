@@ -12,7 +12,8 @@ import com.example.demo.service.to.RetiroTO;
 public interface IReservaService {
 	
 
-	public BigDecimal consultarReserva(String cedula, String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	public BigDecimal consultarValorReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+	public LocalDateTime consultarReserva(String placa, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 	public void reservar(ReservaTO reserva);
 	public String retirarVehiculoReservado(Integer numero);
 	public List<ReporteTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin);
