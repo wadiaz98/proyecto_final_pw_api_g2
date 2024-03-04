@@ -65,8 +65,13 @@ public class VehiculoControllerRestFul {
 	// buscar por placa
 	@GetMapping(path = "/placa/{placa}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VehiculoTO> buscarPlaca(@PathVariable String placa) {
-		VehiculoTO vehiculo = this.iVehiculoService.buscar(placa);
-		return ResponseEntity.status(HttpStatus.OK).body(vehiculo);
+		try {
+			VehiculoTO vehiculo = this.iVehiculoService.buscar(placa);
+			return ResponseEntity.status(HttpStatus.OK).body(vehiculo);
+		}catch(NullPointerException e) {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		
 	}
 
 	// buscar TODOS los vehiculos

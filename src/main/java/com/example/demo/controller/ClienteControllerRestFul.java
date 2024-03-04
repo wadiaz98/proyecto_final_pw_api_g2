@@ -71,8 +71,13 @@ public class ClienteControllerRestFul {
 //		buscar por cedula
 	@GetMapping(path = "/cedula/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE)
 	private ResponseEntity<ClienteTo> buscarCedula(@PathVariable String cedula) {
-		ClienteTo cliente = this.clienteService.buscar(cedula);
-		return ResponseEntity.status(HttpStatus.OK).body(cliente);
+		try {
+			ClienteTo cliente = this.clienteService.buscar(cedula);
+			return ResponseEntity.status(HttpStatus.OK).body(cliente);
+		}catch (NullPointerException e) {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		
 	}
 
 //		buscar todos los clientes
