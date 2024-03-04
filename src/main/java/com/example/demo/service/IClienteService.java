@@ -16,6 +16,8 @@ public interface IClienteService {
 	public List<ClienteTo> reporte();
 	//extra
 	public List<ClienteDTO> obtenerTodos();
+	public boolean verificador(ClienteTo cliente);
+	
 
 	
 }
