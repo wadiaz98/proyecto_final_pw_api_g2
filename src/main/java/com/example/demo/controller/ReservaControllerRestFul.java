@@ -50,11 +50,11 @@ public class ReservaControllerRestFul {
 		return ResponseEntity.status(HttpStatus.OK).body("La reserva número: "+reserva.getNumero()+" se a guardado con éxito");
 	}
 	
-//	2e. Retirar un vehículo reservado
-	@PutMapping(path = "/{numero}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RetiroTO> retirarVehiculoReservado(@PathVariable Integer numero) {
-		RetiroTO retiro =  this.iReservaService.retirarVehiculoReservado(numero);
-		return ResponseEntity.status(HttpStatus.OK).body(retiro);
+//	2e. Retirar un vehículo reservadow
+	@GetMapping(path = "/retirar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> retirarVehiculoReservado(@RequestParam Integer numero) {
+	    String mensaje =  this.iReservaService.retirarVehiculoReservado(numero);
+	    return ResponseEntity.status(HttpStatus.OK).body(mensaje);
 	}
 //	buscar reporte 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

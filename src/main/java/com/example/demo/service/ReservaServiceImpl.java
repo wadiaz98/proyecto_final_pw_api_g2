@@ -45,13 +45,15 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	@Override
-	public RetiroTO retirarVehiculoReservado(Integer numero) {
+	public String retirarVehiculoReservado(Integer numero) {
 		// TODO Auto-generated method stub
 		LocalDateTime fechaHoy = LocalDateTime.now();
 		Reserva reserva = this.iReservaRepo.buscar(numero);
 
-		if (fechaHoy.isBefore(reserva.getFechaFin()) && fechaHoy.isAfter(reserva.getFechaInicio())) {
-			if (!reserva.getEstado().equals("E")) { // estado = generado (G)
+		if(reserva.getEstado().equals("E")) {
+			return "El retiro ya ha sido EJECUTADO, no puedes retirar otra vez";
+		}else if (fechaHoy.isBefore(reserva.getFechaFin()) && fechaHoy.isAfter(reserva.getFechaInicio()) ) {
+	
 				// VEHICULO: Cambio de estado(No disponible "ND")
 				Vehiculo vehiculo = reserva.getVehiculo();
 				vehiculo.setEstado("ND"); // D -> ND
@@ -60,13 +62,10 @@ public class ReservaServiceImpl implements IReservaService {
 				// RESERVA: Cambio de estado(En ejecucion "E")
 				reserva.setEstado("E"); // G -> E
 				this.iReservaRepo.actualizar(reserva);
-				return this.convertirRetiroTO(reserva);
-			} else {
-				System.out.println("El vehiculo no ha sido reservado");
-				return null;
-			}
-		} else {
-			return null;
+				
+				return "El vehiculo ha sido retirado con EXITO";
+		}else {
+			return "El vehiculo NO puede ser retirado fuera de las fechas indicadas";
 		}
 
 	}
