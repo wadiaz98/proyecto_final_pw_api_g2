@@ -86,7 +86,6 @@ public class ClienteServiceImpl implements IClienteService {
 		cliente.setNombre(clienteTo.getNombre());
 		cliente.setRegistro(clienteTo.getRegistro());
 		cliente.setPassword(clienteTo.getPassword());
-		cliente.setTipo(clienteTo.getTipo());
 		return cliente;
 	}
 	
@@ -99,7 +98,6 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteTo.setNombre(cliente.getNombre());
 		clienteTo.setRegistro(cliente.getRegistro());
 		clienteTo.setPassword(cliente.getPassword());
-		clienteTo.setTipo(cliente.getTipo());
 		return clienteTo;
 	}
 	

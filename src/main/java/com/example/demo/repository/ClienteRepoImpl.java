@@ -47,10 +47,9 @@ public class ClienteRepoImpl implements IClienteRepo {
 	public List<ClienteDTO> buscarApellido(String apellido) {
 		// TODO Auto-generated method stub
 		TypedQuery<ClienteDTO> query = this.entityManager.createQuery(				
-				"select new com.example.demo.service.dto.ClienteDTO(c.cedula, c.nombre, c.apellido) from Cliente c where c.apellido=:datoApellido AND c.tipo=:tipo",
+				"select new com.example.demo.service.dto.ClienteDTO(c.cedula, c.nombre, c.apellido) from Cliente c where c.apellido=:datoApellido",
 				ClienteDTO.class);
 		query.setParameter("datoApellido", apellido);
-		query.setParameter("tipo", "Cliente");
 		return query.getResultList();
 	}
 
@@ -70,9 +69,8 @@ public class ClienteRepoImpl implements IClienteRepo {
 	public List<ClienteDTO> buscarTodos() {
 		// TODO Auto-generated method stub
 		TypedQuery<ClienteDTO> query = this.entityManager.createQuery(
-				"select new com.example.demo.service.dto.ClienteDTO(c.cedula, c.nombre, c.apellido) from Cliente c where c.tipo=:tipo",
+				"select new com.example.demo.service.dto.ClienteDTO(c.cedula, c.nombre, c.apellido) from Cliente c",
 				ClienteDTO.class);
-		query.setParameter("tipo", "Cliente");
 		return query.getResultList();
 	}
 

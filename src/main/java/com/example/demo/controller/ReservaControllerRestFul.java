@@ -62,7 +62,7 @@ public class ReservaControllerRestFul {
 		return ResponseEntity.status(HttpStatus.OK).body(responseData);
 	}
 	//cobro
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/cobro", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> resgistrarCobro(@RequestBody CobroTO cobro){
 		this.iCobroService.guardar(cobro);
 		return ResponseEntity.status(HttpStatus.OK).body("Se ha registrado el cobro de la reserva con exito");
@@ -84,10 +84,10 @@ public class ReservaControllerRestFul {
 	}
 //	buscar reporte 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ReservaTO> obtenerReporte(@RequestParam Integer numero){
+	public ResponseEntity<RetiroTO> obtenerReporte(@RequestParam Integer numero){
 		try {
-			ReservaTO reserva = this.iReservaService.obtener(numero);
-			return ResponseEntity.status(HttpStatus.OK).body(reserva);
+			RetiroTO retiro = this.iReservaService.obtener(numero);
+			return ResponseEntity.status(HttpStatus.OK).body(retiro);
 		}catch (NullPointerException  e) {
 			//e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK).body(null);

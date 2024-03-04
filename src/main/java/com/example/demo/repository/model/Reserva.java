@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -46,6 +47,10 @@ public class Reserva {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="rese_placa_vehiculo")
 	private Vehiculo vehiculo;
+	
+	@OneToOne
+	@JoinColumn(name = "rese_cobro")
+	private Cobro cobro;
 
 	@Override
 	public String toString() {

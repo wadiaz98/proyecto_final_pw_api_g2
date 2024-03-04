@@ -97,7 +97,7 @@ public class ClienteControllerRestFul {
 					.body("No se puede eliminar la cedula <<" + cedula + ">> porque no existe en la base de datos.");
 		}
 		return ResponseEntity.status(HttpStatus.OK)
-				.body("El estudiante con identificación " + cedula + " ha sido eliminado");
+				.body("El cliente con identificación " + cedula + " ha sido eliminado");
 	}
 	
 	//EXTRA

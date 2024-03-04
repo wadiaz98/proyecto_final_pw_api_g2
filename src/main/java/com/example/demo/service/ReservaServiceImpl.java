@@ -44,15 +44,15 @@ public class ReservaServiceImpl implements IReservaService {
 	public void reservar(ReservaTO reserva) {
 		// TODO Auto-generated method stub
 		Reserva res = new Reserva();
-		res.setCliente(reserva.getCliente());
-		res.setVehiculo(reserva.getVehiculo());
+		res.setCliente(this.clienteRepo.buscar(reserva.getCliente()));
+		res.setVehiculo(this.iVehiculoRepo.buscar(reserva.getVehiculo()));
 		res.setEstado("G");
 		res.setFechaInicio(reserva.getFechaInicio());
 		res.setFechaFin(reserva.getFechaFin());
 		int dias= this.calcularDias(reserva.getFechaInicio(), reserva.getFechaFin());
 		res.setValorSubtotal(res.getVehiculo().getValorDia().multiply(new BigDecimal(dias)));
 		res.setIva(new BigDecimal(0.12));
-		res.setValorTotal(this.consultarValorReserva(reserva.getVehiculo().getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin()));
+		res.setValorTotal(this.consultarValorReserva(reserva.getVehiculo(), reserva.getFechaInicio(), reserva.getFechaFin()));
 		this.iReservaRepo.insertar(res);
 	}
 
@@ -111,9 +111,9 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	@Override
-	public ReservaTO obtener(Integer numero) {
+	public RetiroTO obtener(Integer numero) {
 		// TODO Auto-generated method stub
-		return this.convertirTO(this.iReservaRepo.buscar(numero));
+		return this.convertirRetiroTO(this.iReservaRepo.buscar(numero));
 	}
 
 	// FUCIONES SERVICE

@@ -24,7 +24,7 @@ public class Cobro {
 	@Column(name = "cobr_fecha_cobro")
 	private LocalDateTime fecha;
 	
-	@OneToOne(mappedBy = "reserva")
+	@OneToOne(mappedBy = "cobro")
 	private Reserva reserva;
 
 	public int getId() {

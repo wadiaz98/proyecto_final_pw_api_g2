@@ -33,8 +33,6 @@ public class Cliente {
 	
 	@Column(name="clie_password")
 	private String password;
-	@Column(name="clie_tipo")
-	private String tipo;
 	
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
@@ -80,12 +78,6 @@ public class Cliente {
 
 	public void setGenero(String genero) {
 		this.genero = genero;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 	public String getPassword() {
 		return password;
