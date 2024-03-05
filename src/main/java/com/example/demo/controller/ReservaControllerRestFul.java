@@ -63,15 +63,16 @@ public class ReservaControllerRestFul {
 	}
 	
 	
-	@GetMapping(path="/{cobro}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Cobro> resgistrarCobro(@PathVariable Integer cobro) {
+	@GetMapping(path="/{cobro}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Cobro> getCobro(@PathVariable Integer cobro) {
 		return ResponseEntity.status(HttpStatus.OK).body(this.iCobroService.buscar(cobro));
 	}
+	
 	// Insertar cobro
 	@PostMapping(path = "/cobro", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> resgistrarCobro(@RequestBody CobroTO cobro) {
 		this.iCobroService.guardar(cobro);
-		return ResponseEntity.status(HttpStatus.OK).body("Se ha registrado el cobro de la reserva con exito");
+		return ResponseEntity.status(HttpStatus.OK).body("SE realizó el cobro");
 	}
 
 //	reservar
