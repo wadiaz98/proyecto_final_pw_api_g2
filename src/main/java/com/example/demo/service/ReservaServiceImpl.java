@@ -80,8 +80,7 @@ public class ReservaServiceImpl implements IReservaService {
 				// RESERVA: Cambio de estado(En ejecucion "E")
 				reserva.setEstado("E"); // G -> E
 				this.iReservaRepo.actualizar(reserva);
-				
-				return "El vehiculo ha sido retirado con EXITO";
+				return "El vehiculo ha sido retirado con EXITO. (Fecha de retiro): "+LocalDateTime.now();
 		}else {
 			return "El vehiculo NO puede ser retirado fuera de las fechas indicadas";
 		}
@@ -157,7 +156,6 @@ public class ReservaServiceImpl implements IReservaService {
 		tmp.setFechaInicio(reserva.getFechaInicio());
 		tmp.setFechaFin(reserva.getFechaFin());
 		tmp.setCedula(reserva.getCliente().getCedula());
-		tmp.setFechaRetiro(LocalDateTime.now());
 		return tmp;
 	}
 
