@@ -63,9 +63,9 @@ public class ReservaControllerRestFul {
 	}
 	
 	
-	@GetMapping(path="/{cobro}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Cobro> getCobro(@PathVariable Integer cobro) {
-		return ResponseEntity.status(HttpStatus.OK).body(this.iCobroService.buscar(cobro));
+	@GetMapping(path="/{idReserva}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Cobro> getCobro(@PathVariable Integer idReserva) {
+		return ResponseEntity.status(HttpStatus.OK).body(this.iCobroService.buscar(idReserva));
 	}
 	
 	// Insertar cobro
