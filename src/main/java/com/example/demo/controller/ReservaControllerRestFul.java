@@ -43,9 +43,9 @@ public class ReservaControllerRestFul {
 
 //	1b. Reservar vehículo
 //	consultar precio
-	@PostMapping(path="/disponibilidad",consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/disponibilidad", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map> consultarDisponibilidad(@RequestBody ReservaDTO reserva) {
-		
+
 		Map<String, Object> responseData = new HashMap<>();
 		if (!this.iVehiculoService.buscar(reserva.getPlaca()).getEstado().equals("ND")) {
 			responseData.put("disponibilidad", true);
@@ -61,43 +61,47 @@ public class ReservaControllerRestFul {
 
 		return ResponseEntity.status(HttpStatus.OK).body(responseData);
 	}
-	//cobro
+
+	// cobro
 	@PostMapping(path = "/cobro", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> resgistrarCobro(@RequestBody CobroTO cobro){
+	public ResponseEntity<String> resgistrarCobro(@RequestBody CobroTO cobro) {
 		this.iCobroService.guardar(cobro);
 		return ResponseEntity.status(HttpStatus.OK).body("Se ha registrado el cobro de la reserva con exito");
 	}
 
 //	reservar
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> reservar(@RequestBody ReservaTO reserva) {
+	public ResponseEntity<ReservaTO> reservar(@RequestBody ReservaTO reserva) {
 		this.iReservaService.reservar(reserva);
-		return ResponseEntity.status(HttpStatus.OK)
-				.body("La reserva número: " + reserva.getNumero() + " se a guardado con éxito");
+		ReservaTO tmp = this.iReservaService.buscarPorClienteFecha(reserva.getCliente(), reserva.getVehiculo(),
+				reserva.getFechaInicio());
+		return ResponseEntity.status(HttpStatus.OK).body(tmp);
 	}
-	
+
 //	2e. Retirar un vehículo reservadow
 	@GetMapping(path = "/retirar", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> retirarVehiculoReservado(@RequestParam Integer numero) {
-	    String mensaje =  this.iReservaService.retirarVehiculoReservado(numero);
-	    return ResponseEntity.status(HttpStatus.OK).body(mensaje);
+		String mensaje = this.iReservaService.retirarVehiculoReservado(numero);
+		return ResponseEntity.status(HttpStatus.OK).body(mensaje);
 	}
+
 //	buscar reporte 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RetiroTO> obtenerReporte(@RequestParam Integer numero){
+	public ResponseEntity<RetiroTO> obtenerReporte(@RequestParam Integer numero) {
 		try {
 			RetiroTO retiro = this.iReservaService.obtener(numero);
 			return ResponseEntity.status(HttpStatus.OK).body(retiro);
-		}catch (NullPointerException  e) {
-			//e.printStackTrace();
+		} catch (NullPointerException e) {
+			// e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.OK).body(null);
-		}		
+		}
 
 	}
 
 	// 3a. Reportes de reservas
 	@GetMapping(path = "/reportes", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ReporteTO>> obtenerReportes(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin){
+	public ResponseEntity<List<ReporteTO>> obtenerReportes(@RequestParam LocalDateTime fechaInicio,
+			@RequestParam LocalDateTime fechaFin) {
 		List<ReporteTO> list = this.iReservaService.reporte(fechaInicio, fechaFin);
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}

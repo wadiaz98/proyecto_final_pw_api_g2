@@ -11,7 +11,7 @@ public interface IReservaRepo {
 	public void actualizar(Reserva reserva);
 	public Reserva buscar(Integer numero);
 	public void eliminar(Integer numero);
-	
+	public Reserva buscarPorClienteFecha(String cedula, String placa, LocalDateTime fechaInicio);
 	public List<Reserva> buscarReporte(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
 }

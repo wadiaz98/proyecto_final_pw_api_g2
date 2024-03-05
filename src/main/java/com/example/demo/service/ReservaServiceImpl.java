@@ -159,4 +159,9 @@ public class ReservaServiceImpl implements IReservaService {
 		return tmp;
 	}
 
+	@Override
+	public ReservaTO buscarPorClienteFecha(String cedula, String placa, LocalDateTime fechaInicio) {
+		return this.convertirTO(this.iReservaRepo.buscarPorClienteFecha(cedula, placa, fechaInicio));
+	}
+
 }
