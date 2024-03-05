@@ -71,9 +71,9 @@ public class ReservaControllerRestFul {
 
 //	reservar
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ReservaTO> reservar(@RequestBody ReservaTO reserva) {
+	public ResponseEntity<ReservaTO> reservar(@RequestBody ReservaDTO reserva) {
 		this.iReservaService.reservar(reserva);
-		ReservaTO tmp = this.iReservaService.buscarPorClienteFecha(reserva.getCliente(), reserva.getVehiculo(),
+		ReservaTO tmp = this.iReservaService.buscarPorClienteFecha(reserva.getCedula(), reserva.getPlaca(),
 				reserva.getFechaInicio());
 		return ResponseEntity.status(HttpStatus.OK).body(tmp);
 	}

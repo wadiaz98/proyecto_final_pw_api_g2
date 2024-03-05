@@ -13,6 +13,7 @@ import com.example.demo.repository.IReservaRepo;
 import com.example.demo.repository.IVehiculoRepo;
 import com.example.demo.repository.model.Reserva;
 import com.example.demo.repository.model.Vehiculo;
+import com.example.demo.service.dto.ReservaDTO;
 import com.example.demo.service.to.ReporteTO;
 import com.example.demo.service.to.ReservaTO;
 import com.example.demo.service.to.RetiroTO;
@@ -41,18 +42,18 @@ public class ReservaServiceImpl implements IReservaService {
 	}
 
 	@Override
-	public void reservar(ReservaTO reserva) {
+	public void reservar(ReservaDTO reserva) {
 		// TODO Auto-generated method stub
 		Reserva res = new Reserva();
-		res.setCliente(this.clienteRepo.buscar(reserva.getCliente()));
-		res.setVehiculo(this.iVehiculoRepo.buscar(reserva.getVehiculo()));
+		res.setCliente(this.clienteRepo.buscar(reserva.getCedula()));
+		res.setVehiculo(this.iVehiculoRepo.buscar(reserva.getPlaca()));
 		res.setEstado("G");
 		res.setFechaInicio(reserva.getFechaInicio());
 		res.setFechaFin(reserva.getFechaFin());
 		int dias= this.calcularDias(reserva.getFechaInicio(), reserva.getFechaFin());
 		res.setValorSubtotal(res.getVehiculo().getValorDia().multiply(new BigDecimal(dias)));
 		res.setIva(new BigDecimal(0.12));
-		res.setValorTotal(this.consultarValorReserva(reserva.getVehiculo(), reserva.getFechaInicio(), reserva.getFechaFin()));
+		res.setValorTotal(this.consultarValorReserva(reserva.getPlaca(), reserva.getFechaInicio(), reserva.getFechaFin()));
 		this.iReservaRepo.insertar(res);
 	}
 
