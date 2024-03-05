@@ -43,7 +43,7 @@ public class ReservaControllerRestFul {
 
 //	1b. Reservar vehículo
 //	consultar precio
-	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path="/disponibilidad",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map> consultarDisponibilidad(@RequestBody ReservaDTO reserva) {
 		
 		Map<String, Object> responseData = new HashMap<>();
