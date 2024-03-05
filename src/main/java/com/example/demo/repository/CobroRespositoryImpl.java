@@ -6,6 +6,7 @@ import com.example.demo.repository.model.Cobro;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 @Repository
@@ -21,9 +22,10 @@ public class CobroRespositoryImpl implements ICobroRepository {
 	}
 
 	@Override
-	public Cobro buscar(Integer cobro) {
-		// TODO Auto-generated method stub
-		return this.entityManager.find(Cobro.class, cobro);
+	public Cobro buscar(Integer idReserva) {
+		TypedQuery<Cobro> query = this.entityManager.createQuery("Select c From Cobro c Join c.reserva r where r.id=:datoId", Cobro.class);
+		query.setParameter("datoId", idReserva);
+		return query.getSingleResult();
 	}
 
 }
