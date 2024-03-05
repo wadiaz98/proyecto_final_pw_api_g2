@@ -157,6 +157,7 @@ public class ReservaServiceImpl implements IReservaService {
 		tmp.setFechaInicio(reserva.getFechaInicio());
 		tmp.setFechaFin(reserva.getFechaFin());
 		tmp.setCedula(reserva.getCliente().getCedula());
+		tmp.setFechaRetiro(LocalDateTime.now());
 		return tmp;
 	}
 
