@@ -17,7 +17,7 @@ public interface IReservaService {
 	public void reservar(ReservaTO reserva);
 	public String retirarVehiculoReservado(Integer numero);
 	public List<ReporteTO> reporte(LocalDateTime fechaInicio, LocalDateTime fechaFin);
-	
+	public ReservaTO buscarPorClienteFecha(String cedula, String placa, LocalDateTime fechaInicio);
 	public RetiroTO obtener(Integer numero);
 
 	
