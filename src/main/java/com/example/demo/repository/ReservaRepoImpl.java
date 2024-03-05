@@ -56,8 +56,9 @@ public class ReservaRepoImpl implements IReservaRepo {
 
 	@Override
 	public Reserva buscarPorClienteFecha(String cedula, String placa, LocalDateTime fechaInicio) {
+		
 		TypedQuery<Reserva> query = this.entityManager.createQuery(
-				"SELECT r FROM Reserva r WHERE r.cliente=:datoCedula AND r.vehiculo=:datoPlaca AND r.FechaInicio=:datoFecha",
+				 "SELECT r FROM Reserva r JOIN r.cliente c JOIN r.vehiculo v WHERE c.cedula = :datoCedula AND v.placa = :datoPlaca AND r.fechaInicio = :datoFecha",
 				Reserva.class);
 		query.setParameter("datoCedula", cedula);
 		query.setParameter("datoPlaca", placa);

@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.repository.model.Cobro;
 import com.example.demo.service.ICobroService;
 import com.example.demo.service.IReservaService;
 import com.example.demo.service.IVehiculoService;
@@ -61,8 +61,13 @@ public class ReservaControllerRestFul {
 
 		return ResponseEntity.status(HttpStatus.OK).body(responseData);
 	}
-
-	// cobro
+	
+	
+	@GetMapping(path="/{cobro}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Cobro> resgistrarCobro(@PathVariable Integer cobro) {
+		return ResponseEntity.status(HttpStatus.OK).body(this.iCobroService.buscar(cobro));
+	}
+	// Insertar cobro
 	@PostMapping(path = "/cobro", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> resgistrarCobro(@RequestBody CobroTO cobro) {
 		this.iCobroService.guardar(cobro);
@@ -73,6 +78,13 @@ public class ReservaControllerRestFul {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ReservaTO> reservar(@RequestBody ReservaDTO reserva) {
 		this.iReservaService.reservar(reserva);
+		// Agregar un retraso de un segundo (1000 milisegundos)
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// Manejar la excepción si es necesario
+					e.printStackTrace();
+				}
 		ReservaTO tmp = this.iReservaService.buscarPorClienteFecha(reserva.getCedula(), reserva.getPlaca(),
 				reserva.getFechaInicio());
 		return ResponseEntity.status(HttpStatus.OK).body(tmp);

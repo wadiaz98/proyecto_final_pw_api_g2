@@ -20,4 +20,10 @@ public class CobroRespositoryImpl implements ICobroRepository {
 		this.entityManager.persist(cobro);
 	}
 
+	@Override
+	public Cobro buscar(Integer cobro) {
+		// TODO Auto-generated method stub
+		return this.entityManager.find(Cobro.class, cobro);
+	}
+
 }

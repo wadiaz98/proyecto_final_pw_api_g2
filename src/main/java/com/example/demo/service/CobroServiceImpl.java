@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.ICobroRepository;
+import com.example.demo.repository.IReservaRepo;
 import com.example.demo.repository.model.Cobro;
 import com.example.demo.service.to.CobroTO;
 
@@ -14,6 +15,9 @@ public class CobroServiceImpl implements ICobroService {
 
 	@Autowired
 	ICobroRepository cobroRepository;
+	
+	@Autowired
+	IReservaRepo iReservaRepo;
 	
 	@Override
 	public void guardar(CobroTO cobro) {
@@ -26,8 +30,14 @@ public class CobroServiceImpl implements ICobroService {
 		Cobro result=new Cobro();
 		result.setFecha(cobro.getFecha());
 		result.setNumeroTarjeta(cobro.getNumeroTarjeta());
-		result.setReserva(cobro.getReserva());
+		result.setReserva(this.iReservaRepo.buscar(cobro.getReserva()));
 		return result;
+	}
+
+	@Override
+	public Cobro buscar(Integer cobro) {
+		// TODO Auto-generated method stub
+		return this.cobroRepository.buscar(cobro);
 	}
 
 }
